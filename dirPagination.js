@@ -108,7 +108,16 @@
                             return collectionGetter(scope);
                         }, function(collection) {
                             if (collection) {
-                                paginationService.setCollectionLength(paginationId, collection.length);
+                                /*
+                                 PatrickA/JamesU
+                                 We are passing an object not an array.
+                                 Previously, the code did not check if collection is an array
+                                 */
+                                if (Array.isArray(collection)) {
+                                    paginationService.setCollectionLength(paginationId, collection.length);
+                                } else {
+                                    paginationService.setCollectionLength(paginationId, Object.keys(collection).length);
+                                }
                             }
                         });
                     }
